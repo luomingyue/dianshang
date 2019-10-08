@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.neuedu.shop.mapper.CategoryMapper">
+	<sql id="baseSql">
+		id,category_name,category_description,category_parent_id,leaf,grade
+	</sql>
+	<select id="findAll" resultType="User">
+		select 
+		<include refid="baseSql"/>
+		from t_category
+	</select>
+	<select id="findById"
+		resultType="Category" parameterType="int">
+		select 
+		<include refid="baseSql"/>
+		from t_category where id=#{id}
+	</select>
+	<insert id="insertRoot" parameterType="CategoryBean">
+		insert into t_category values(null,#{name},#{descr},0,1,1)
+	</insert>
+	<resultMap type="Category" id="selectCategory">
+		<id property="id" column="id" javaType="Integer"/>
+		<result property="categoryName" column="category_name" javaType="string"/>
+		<result property="categoryDescription" column="category_description" javaType="string"/>
+		<result property="categoryParentId" column="category_parent_id" javaType="int"/>
+		<result property="leaf" column="leaf" javaType="boolean"/>
+		<result property="grade" column="grade" javaType="int"/>
+	</resultMap>
+	
+	
+</mapper>

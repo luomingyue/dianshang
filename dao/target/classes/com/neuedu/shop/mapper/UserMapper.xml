@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.neuedu.shop.mapper.UserMapper">
+	<sql id="baseSql">
+		id,username,password,phone,addr,rdate
+	</sql>
+	<select id="findAll" resultType="User">
+		select 
+		<include refid="baseSql"/>
+		from t_user
+	</select>
+	<select id="findById"
+		resultType="User" parameterType="int">
+		select 
+		<include refid="baseSql"/>
+		from t_user where id=#{id}
+	</select>
+	<insert id="insert" parameterType="User">
+		insert into t_user(id,username,password,phone,addr,rdate) values(null,#{username},md5(#{password}),#{phone},#{addr},now())
+	</insert>
+	
+	<update id="update" parameterType="User">
+		update t_user set username=#{username},password=md5(#{password}),phone=#{phone},addr=#{addr},rdate=#{rdate} where id=#{id}
+	</update>
+	<update id="resetUserPwd" parameterType="int">
+		update t_user set password=111111 where id = #{id}
+	</update>
+	
+	<delete id="delete" parameterType="int">
+		delete from t_user where id=#{id}
+	</delete>
+	
+</mapper>
